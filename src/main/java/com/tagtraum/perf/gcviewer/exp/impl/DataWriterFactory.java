@@ -51,6 +51,7 @@ public class DataWriterFactory {
             case PLAIN   : return new PlainDataWriter(outputStream);
             case CSV     : return new CSVDataWriter(outputStream);
             case CSV_TS  : return new CSVTSDataWriter(outputStream);
+            case CSV_TS_BOTH  : return new CSVTSBothDataWriter(outputStream);
             case SIMPLE  : return new SimpleGcWriter(outputStream);
             case SUMMARY : return new SummaryDataWriter(outputStream, configuration);
             case PNG     : return new PNGDataWriter(outputStream);
