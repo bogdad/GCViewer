@@ -21,7 +21,7 @@ import com.tagtraum.perf.gcviewer.util.LocalisationHelper;
 public class DataReaderFactory {
 
     private static final int ONE_KB = 1024;
-    static final int FOUR_KB = ONE_KB * 4;
+    static final int EIGHT_KB = ONE_KB * 8;
     private static final int MAX_ATTEMPT_COUNT = 100;
     
     private GCResource gcResource;
@@ -37,11 +37,11 @@ public class DataReaderFactory {
      */
     public DataReader getDataReader(GCResource gcResource, InputStream inStream) throws IOException {
         this.gcResource = gcResource;
-        InputStream in = new BufferedInputStream(inStream, FOUR_KB);
+        InputStream in = new BufferedInputStream(inStream, EIGHT_KB);
         // isGZipped relies on streams to support "mark" -> BufferdInputStream does
         if (isGZipped(in)) {
             getLogger().info("GZip stream detected");
-            in = new BufferedInputStream(new GZIPInputStream(in, FOUR_KB), FOUR_KB);
+            in = new BufferedInputStream(new GZIPInputStream(in, EIGHT_KB), EIGHT_KB);
         }
         
         DataReader dataReader = null;
@@ -50,14 +50,14 @@ public class DataReaderFactory {
         int attemptCount = 0;
         String s = "";
         while (attemptCount < MAX_ATTEMPT_COUNT) {
-            in.mark(FOUR_KB + (int) nextPos);
+            in.mark(EIGHT_KB + (int) nextPos);
             if (nextPos > 0) {
                 long skipped = in.skip(nextPos);
                 if (skipped != nextPos) {
                     break;
                 }
             }
-            byte[] buf = new byte[ONE_KB * 3];
+            byte[] buf = new byte[ONE_KB * 7];
             int length = in.read(buf);
             in.reset();
 

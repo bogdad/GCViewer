@@ -120,7 +120,7 @@ public class DataReaderFacade {
             }
         }
         if (contentLength > 100L) {
-            in = new MonitoredBufferedInputStream(in, DataReaderFactory.FOUR_KB, contentLength);
+            in = new MonitoredBufferedInputStream(in, DataReaderFactory.EIGHT_KB, contentLength);
             for (PropertyChangeListener listener : propertyChangeListeners) {
                 ((MonitoredBufferedInputStream)in).addPropertyChangeListener(listener);
             }
